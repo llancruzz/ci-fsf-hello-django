@@ -35,7 +35,7 @@ DEBUG = development
 if development:
     ALLOWED_HOSTS = ['introduction-django.herokuapp.com']
 else:
-    ALLOWED_HOSTS = [os.environ.get('HEROKU_HOSTNAME')]
+    ALLOWED_HOSTS = [os.environ.get('introduction-django.herokuapp.com')]
 
 
 # Application definition
