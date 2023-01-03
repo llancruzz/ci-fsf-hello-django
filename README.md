@@ -288,7 +288,14 @@ We will also need a package called gunicorn (also known as green unicorn). This 
 pip3 install gunicorn
 ```
 
-Note: When we use pipenv the dependencies are automatically updated in our pipfile, so we don't need to create a requirements.txt file, as the pipfile does the same thing.
+I'm going to use a new command pip3 freeze - - local
+And will direct it into a file called requirements .txt
+This requirements file is how Heroku will know what it needs to install for our app to work.
+Specifically, it'll tell Heroku all the packages it needs to install using pip.
+
+```bash
+pip3 freeze --local > requirements.txt
+```
 
 ### Using the postgres add-on in heroku
 
