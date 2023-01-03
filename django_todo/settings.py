@@ -33,7 +33,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '')
 DEBUG = development
 
 if development:
-    ALLOWED_HOSTS = ['localhost']
+    ALLOWED_HOSTS = ['introduction-django.herokuapp.com']
 else:
     ALLOWED_HOSTS = [os.environ.get('introduction-django.herokuapp.com')]
 
