@@ -28,7 +28,8 @@ A walkthrough project from the Code Institute for the level 5 diploma in web app
   * [Creating a new template](#creating-a-new-template)
   * [Form POST & CSRF Tokens](#form-post--csrf-tokens)
 * [Django Testing](#django-testing)
-* []
+
+Visit the live site here: [To do App](https://introduction-django.herokuapp.com/)
 
 ## Initial Setup of the project
 
@@ -268,9 +269,66 @@ It is unlikely to always reach 100% Total coverage, as there are files that are 
 
 ## Deploying to Heroku
 
-**NOTE** 
+### Create a Database
 
-This section needs updating to use ElephantSQL rather than postgres add-on in heroku
+As your database is currently hosted on Heroku, you will need to move your data out of it. So first, we will create a new database with a free service at ElephantSQL.
+
+These steps will create a new PostgreSQL database instance for use with your project.
+   * Log in to ElephantSQL.com to access your dashboard
+   * Click “Create New Instance”
+   * Set up your plan
+   * Select “Select Region”
+   * Select a data center near you
+   * Then click “Review”
+   * Check your details are correct and then click “Create instance”
+   * Return to the ElephantSQL dashboard and click on the database instance name for this project
+   * Copy the database url for your project.
+
+### Connecting the database to our app
+
+Connecting the new external database to our deployment app.
+
+First I need to create this new app where our project will be hosted. Here are the steps:
+
+Adding the DATABASE_URL Config Var:
+   * Go to the Settings tab
+   * Click Reveal Config Vars
+   * Add a Config Var called DATABASE_URL. Paste your ElephantSQL database URL in as the value
+
+Connecting the external database to Gitpod.
+
+I connected my new database to our workspace, so I can migrate my models to the new database and get it working like our local one did.
+
+Steps to add your new external database to Gitpod:
+   * In your env.py file add a new key, DATABASE_URL, and give it a value of the copied database URL.
+     ``` bash
+     os.environ.setdefault("DATABASE_URL", "my_copied_database_url")
+     ```
+   * Install the dj-database-url package version 0.5.0 in the terminal with pip3. This will allow us to parse the URL we got above to a format Django can work with:
+      ``` bash
+      pip3 install dj_database_url==0.5.0
+      ```
+   * I'm going to use a new command pip3 freeze - - local
+    And will direct it into a file called requirements .txt
+    This requirements file is how Heroku will know what it needs to install for our app to work.
+    Specifically, it'll tell Heroku all the packages it needs to install using pip.
+
+      ```bash
+            pip3 freeze --local > requirements.txt
+      ```
+   * At the top of settings.py, import the package and the env.py file:
+      ```bash
+          from pathlib import Path
+          import os
+          import dj_database_url
+          import env
+      ```
+  * Run the migrate command in the terminal to build the database according to the model structure we created in earlier videos
+      ```bash
+         python3 manage.py migrate
+      ```
+
+    
 
 ### Updating the Database
 
@@ -286,15 +344,6 @@ We will also need a package called gunicorn (also known as green unicorn). This 
 
 ```bash
 pip3 install gunicorn
-```
-
-I'm going to use a new command pip3 freeze - - local
-And will direct it into a file called requirements .txt
-This requirements file is how Heroku will know what it needs to install for our app to work.
-Specifically, it'll tell Heroku all the packages it needs to install using pip.
-
-```bash
-pip3 freeze --local > requirements.txt
 ```
 
 ### Using the postgres add-on in heroku
