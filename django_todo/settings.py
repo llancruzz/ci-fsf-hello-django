@@ -33,7 +33,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '')
 DEBUG = development
 
 
-ALLOWED_HOSTS = ['introduction-django.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', ]
 
 
 # Application definition
